@@ -140,7 +140,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var AppComponent = function AppComponent() {
       _classCallCheck(this, AppComponent);
 
-      this.title = 'weather-forecast';
+      this.title = 'Pogoda';
     };
 
     AppComponent.ɵfac = function AppComponent_Factory(t) {
@@ -430,37 +430,53 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
           document.body.className = 'body-night';
           console.log(document.documentElement.clientHeight);
-          this.weatherService.getWeather().subscribe(function (data) {
+
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (data) {
+              _this.showWeather(data.coords.latitude, data.coords.longitude);
+
+              _this.weatherService.getCity(data.coords.latitude, data.coords.longitude).subscribe(function (data) {
+                _this.currentCity = data.locality;
+              });
+            });
+          }
+        }
+      }, {
+        key: "showWeather",
+        value: function showWeather(latitude, longitude) {
+          var _this2 = this;
+
+          this.weatherService.getWeather(latitude, longitude).subscribe(function (data) {
             console.log(data);
-            _this.currentTemperature = Math.round(data[4].temp) + ' °C';
-            _this.currentFeelsTemperature = Math.round(data[4].feels_like) + ' °C';
-            _this.currentWeather = data[4].weather[0].description;
-            _this.currentWeather = _this.currentWeather.charAt(0).toUpperCase() + _this.currentWeather.slice(1);
+            _this2.currentTemperature = Math.round(data[4].temp) + ' °C';
+            _this2.currentFeelsTemperature = Math.round(data[4].feels_like) + ' °C';
+            _this2.currentWeather = data[4].weather[0].description;
+            _this2.currentWeather = _this2.currentWeather.charAt(0).toUpperCase() + _this2.currentWeather.slice(1);
 
             for (var i = 0; i < 8; i++) {
-              _this.dailyTemperature.push(Math.round(data[7][i].temp.day) + '° / ' + (Math.round(data[7][i].temp.night) + '°'));
+              _this2.dailyTemperature.push(Math.round(data[7][i].temp.day) + '° / ' + (Math.round(data[7][i].temp.night) + '°'));
 
-              _this.dailyWeather.push(data[7][i].weather[0].id);
+              _this2.dailyWeather.push(data[7][i].weather[0].id);
 
-              console.log(_this.dailyWeather);
-              console.log(_this.dailyTemperature);
+              console.log(_this2.dailyWeather);
+              console.log(_this2.dailyTemperature);
             }
 
-            var date = new Date().getDay() + 2;
+            var date = new Date().getDay();
 
-            _this.days.push('Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota');
+            _this2.days.push('Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota');
 
-            console.log(_this.days);
+            console.log(_this2.days);
 
             for (var j = date; j <= 6; j++) {
-              _this.daysNumbers.push(j);
+              _this2.daysNumbers.push(j);
             }
 
             for (var k = 0; k <= date; k++) {
-              _this.daysNumbers.push(k);
+              _this2.daysNumbers.push(k);
             }
 
-            console.log(_this.daysNumbers);
+            console.log(_this2.daysNumbers);
           });
           this.currentTime = this.weatherService.getDate();
         }
@@ -477,7 +493,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       type: DailyComponent,
       selectors: [["app-daily"]],
       decls: 15,
-      vars: 5,
+      vars: 6,
       consts: [[1, "current-weather-div"], [1, "current-location-header"], [1, "current-time-header"], [1, "current-temperature-header"], [1, "current-feelsTemperature-header"], [1, "current-line-breaker"], [1, "current-weather-header"], [1, "daily-weather-div"], [3, "ngClass", 4, "ngFor", "ngForOf"], [3, "ngClass"], [4, "ngIf"]],
       template: function DailyComponent_Template(rf, ctx) {
         if (rf & 1) {
@@ -485,7 +501,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "p", 1);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2, "\u015Arem");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
@@ -529,7 +545,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }
 
         if (rf & 2) {
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](4);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](ctx.currentCity);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](ctx.currentTime);
 
@@ -628,8 +648,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       _createClass(weatherService, [{
         key: "getWeather",
-        value: function getWeather() {
-          return this.http.get("https://api.openweathermap.org/data/2.5/onecall?lat=52.0887&lon=17.01506&units=metric&lang=pl&appid=".concat(src_environments_environment__WEBPACK_IMPORTED_MODULE_1__["environment"].apiKey)).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (responseData) {
+        value: function getWeather(latitude, longitude) {
+          return this.http.get( //52.0887
+          //17.01506
+          "https://api.openweathermap.org/data/2.5/onecall?lat=".concat(latitude, "&lon=").concat(longitude, "&units=metric&lang=pl&appid=").concat(src_environments_environment__WEBPACK_IMPORTED_MODULE_1__["environment"].weatherApiKey)).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (responseData) {
             var postsArray = [];
 
             for (var key in responseData) {
@@ -653,6 +675,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           var months = ['Stycznia', 'Lutego', 'Marca', 'Kwietnia', 'Maja', 'Czerwca', 'Lipca', 'Sierpnia', 'Września', 'Października', 'Listopada', 'Grudnia'];
           var dateString = "".concat(day, " ").concat(months[month], " ").concat(year);
           return dateString;
+        }
+      }, {
+        key: "getCity",
+        value: function getCity(latitude, longitude) {
+          return this.http.get("https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=".concat(latitude, "&longitude=").concat(longitude, "&localityLanguage=pl"));
         }
       }]);
 
@@ -704,24 +731,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
     __webpack_require__.d(__webpack_exports__, "environment", function () {
       return environment;
-    }); // This file can be replaced during build by using the `fileReplacements` array.
-    // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
-    // The list of file replacements can be found in `angular.json`.
-
+    });
 
     var environment = {
       production: false,
-      apiKey: 'bc1f103d0825160fc4ecba0adc35009a'
+      weatherApiKey: 'bc1f103d0825160fc4ecba0adc35009a'
     };
-    /*
-     * For easier debugging in development mode, you can import the following file
-     * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
-     *
-     * This import should be commented out in production mode because it will have a negative impact
-     * on performance if an error is thrown.
-     */
-    // import 'zone.js/dist/zone-error';  // Included with Angular CLI.
-
     /***/
   },
 

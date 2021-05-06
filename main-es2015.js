@@ -74,7 +74,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class AppComponent {
     constructor() {
-        this.title = 'weather-forecast';
+        this.title = 'Pogoda';
     }
 }
 AppComponent.ɵfac = function AppComponent_Factory(t) { return new (t || AppComponent)(); };
@@ -86,7 +86,7 @@ AppComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineCompo
         args: [{
                 selector: 'app-root',
                 templateUrl: './app.component.html',
-                styleUrls: ['./app.component.scss']
+                styleUrls: ['./app.component.scss'],
             }]
     }], null, null); })();
 
@@ -223,7 +223,19 @@ class DailyComponent {
     ngOnInit() {
         document.body.className = 'body-night';
         console.log(document.documentElement.clientHeight);
-        this.weatherService.getWeather().subscribe((data) => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((data) => {
+                this.showWeather(data.coords.latitude, data.coords.longitude);
+                this.weatherService
+                    .getCity(data.coords.latitude, data.coords.longitude)
+                    .subscribe((data) => {
+                    this.currentCity = data.locality;
+                });
+            });
+        }
+    }
+    showWeather(latitude, longitude) {
+        this.weatherService.getWeather(latitude, longitude).subscribe((data) => {
             console.log(data);
             this.currentTemperature = Math.round(data[4].temp) + ' °C';
             this.currentFeelsTemperature = Math.round(data[4].feels_like) + ' °C';
@@ -239,7 +251,7 @@ class DailyComponent {
                 console.log(this.dailyWeather);
                 console.log(this.dailyTemperature);
             }
-            let date = new Date().getDay() + 2;
+            let date = new Date().getDay();
             this.days.push('Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota');
             console.log(this.days);
             for (let j = date; j <= 6; j++) {
@@ -254,10 +266,10 @@ class DailyComponent {
     }
 }
 DailyComponent.ɵfac = function DailyComponent_Factory(t) { return new (t || DailyComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_service_weather_service__WEBPACK_IMPORTED_MODULE_1__["weatherService"])); };
-DailyComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: DailyComponent, selectors: [["app-daily"]], decls: 15, vars: 5, consts: [[1, "current-weather-div"], [1, "current-location-header"], [1, "current-time-header"], [1, "current-temperature-header"], [1, "current-feelsTemperature-header"], [1, "current-line-breaker"], [1, "current-weather-header"], [1, "daily-weather-div"], [3, "ngClass", 4, "ngFor", "ngForOf"], [3, "ngClass"], [4, "ngIf"]], template: function DailyComponent_Template(rf, ctx) { if (rf & 1) {
+DailyComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: DailyComponent, selectors: [["app-daily"]], decls: 15, vars: 6, consts: [[1, "current-weather-div"], [1, "current-location-header"], [1, "current-time-header"], [1, "current-temperature-header"], [1, "current-feelsTemperature-header"], [1, "current-line-breaker"], [1, "current-weather-header"], [1, "daily-weather-div"], [3, "ngClass", 4, "ngFor", "ngForOf"], [3, "ngClass"], [4, "ngIf"]], template: function DailyComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "p", 1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2, "\u015Arem");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](3, "p", 2);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](4);
@@ -279,7 +291,9 @@ DailyComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineCom
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](14, DailyComponent_div_14_Template, 6, 10, "div", 8);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     } if (rf & 2) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](4);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](ctx.currentCity);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](ctx.currentTime);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](ctx.currentTemperature);
@@ -326,9 +340,12 @@ class weatherService {
     constructor(http) {
         this.http = http;
     }
-    getWeather() {
+    getWeather(latitude, longitude) {
         return this.http
-            .get(`https://api.openweathermap.org/data/2.5/onecall?lat=52.0887&lon=17.01506&units=metric&lang=pl&appid=${src_environments_environment__WEBPACK_IMPORTED_MODULE_1__["environment"].apiKey}`)
+            .get(
+        //52.0887
+        //17.01506
+        `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&units=metric&lang=pl&appid=${src_environments_environment__WEBPACK_IMPORTED_MODULE_1__["environment"].weatherApiKey}`)
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])((responseData) => {
             const postsArray = [];
             for (const key in responseData) {
@@ -361,6 +378,9 @@ class weatherService {
         let dateString = `${day} ${months[month]} ${year}`;
         return dateString;
     }
+    getCity(latitude, longitude) {
+        return this.http.get(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=pl`);
+    }
 }
 weatherService.ɵfac = function weatherService_Factory(t) { return new (t || weatherService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"])); };
 weatherService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({ token: weatherService, factory: weatherService.ɵfac, providedIn: 'root' });
@@ -384,21 +404,10 @@ weatherService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineIn
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "environment", function() { return environment; });
-// This file can be replaced during build by using the `fileReplacements` array.
-// `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
-// The list of file replacements can be found in `angular.json`.
 const environment = {
     production: false,
-    apiKey: 'bc1f103d0825160fc4ecba0adc35009a',
+    weatherApiKey: 'bc1f103d0825160fc4ecba0adc35009a',
 };
-/*
- * For easier debugging in development mode, you can import the following file
- * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
- *
- * This import should be commented out in production mode because it will have a negative impact
- * on performance if an error is thrown.
- */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
 
 
 /***/ }),
