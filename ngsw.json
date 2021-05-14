@@ -1,0 +1,110 @@
+{
+  "configVersion": 1,
+  "timestamp": 1620971679226,
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "urls": [
+        "/favicon.ico",
+        "/index.html",
+        "/main-es2015.c8a23939b30792827875.js",
+        "/main-es5.c8a23939b30792827875.js",
+        "/manifest.webmanifest",
+        "/polyfills-es2015.f332a089ad1600448873.js",
+        "/polyfills-es5.177e85a9724683782539.js",
+        "/runtime-es2015.0dae8cbc97194c7caed4.js",
+        "/runtime-es5.0dae8cbc97194c7caed4.js",
+        "/styles.e9d99eac017778141ecb.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "urls": [
+        "/Pogoda-dzien.d0ff1a83432b9ff7e122.svg",
+        "/Pogoda-dzien2.b77e8694eecef61e8d25.svg",
+        "/Pogoda-noc.65d19e7113aa1f6ec37e.svg",
+        "/Pogoda-noc2.5fd8f2869a057afaad70.svg",
+        "/assets/font/weather-icons.css",
+        "/assets/font/weathericons-regular-webfont.eot",
+        "/assets/font/weathericons-regular-webfont.svg",
+        "/assets/font/weathericons-regular-webfont.ttf",
+        "/assets/font/weathericons-regular-webfont.woff",
+        "/assets/font/weathericons-regular-webfont.woff2",
+        "/assets/icons/icon-128x128.png",
+        "/assets/icons/icon-144x144.png",
+        "/assets/icons/icon-152x152.png",
+        "/assets/icons/icon-192x192.png",
+        "/assets/icons/icon-384x384.png",
+        "/assets/icons/icon-512x512.png",
+        "/assets/icons/icon-72x72.png",
+        "/assets/icons/icon-96x96.png",
+        "/assets/icons/ikona.png",
+        "/assets/svg/Pogoda-dzien.svg",
+        "/assets/svg/Pogoda-dzien2.svg",
+        "/assets/svg/Pogoda-noc.svg",
+        "/assets/svg/Pogoda-noc2.svg"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/Pogoda-dzien.d0ff1a83432b9ff7e122.svg": "74d6ddab5e97fa4798e266fa17163fb8a4d13cd6",
+    "/Pogoda-dzien2.b77e8694eecef61e8d25.svg": "7470d492e03adc404863a4497b66a75c2a3031d5",
+    "/Pogoda-noc.65d19e7113aa1f6ec37e.svg": "1041f113cd86aeabbb92ce1f997fd2953fbc6fd7",
+    "/Pogoda-noc2.5fd8f2869a057afaad70.svg": "cfd161cc4540957180ba6c5e5aed938b659522e7",
+    "/assets/font/weather-icons.css": "5d6fd28ef3961e52118af1df672661fae201db63",
+    "/assets/font/weathericons-regular-webfont.eot": "5d58a11d6de39f76e43a93fb1ef70e7bd78032a2",
+    "/assets/font/weathericons-regular-webfont.svg": "c3b440c8a72eb2816bc6c52fb3d6bbf878b6fe23",
+    "/assets/font/weathericons-regular-webfont.ttf": "9916e3dbc3990e3073cf5a2cb4c2e958273b7532",
+    "/assets/font/weathericons-regular-webfont.woff": "5b909f99b700b5289e9af6f750405152b06e32f2",
+    "/assets/font/weathericons-regular-webfont.woff2": "718dd740e8340888352129e592fed085409e891e",
+    "/assets/icons/icon-128x128.png": "dae3b6ed49bdaf4327b92531d4b5b4a5d30c7532",
+    "/assets/icons/icon-144x144.png": "b0bd89982e08f9bd2b642928f5391915b74799a7",
+    "/assets/icons/icon-152x152.png": "7479a9477815dfd9668d60f8b3b2fba709b91310",
+    "/assets/icons/icon-192x192.png": "1abd80d431a237a853ce38147d8c63752f10933b",
+    "/assets/icons/icon-384x384.png": "329749cd6393768d3131ed6304c136b1ca05f2fd",
+    "/assets/icons/icon-512x512.png": "559d9c4318b45a1f2b10596bbb4c960fe521dbcc",
+    "/assets/icons/icon-72x72.png": "c457e56089a36952cd67156f9996bc4ce54a5ed9",
+    "/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
+    "/assets/icons/ikona.png": "5b95d75441eb336074e0401b5a29132ffccb3847",
+    "/assets/svg/Pogoda-dzien.svg": "74d6ddab5e97fa4798e266fa17163fb8a4d13cd6",
+    "/assets/svg/Pogoda-dzien2.svg": "7470d492e03adc404863a4497b66a75c2a3031d5",
+    "/assets/svg/Pogoda-noc.svg": "1041f113cd86aeabbb92ce1f997fd2953fbc6fd7",
+    "/assets/svg/Pogoda-noc2.svg": "cfd161cc4540957180ba6c5e5aed938b659522e7",
+    "/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
+    "/index.html": "a8a31502d99420ffdc1a0baeac067480b6df6f1a",
+    "/main-es2015.c8a23939b30792827875.js": "5f3ea1908092631776b13b67452fa230e32c3dfe",
+    "/main-es5.c8a23939b30792827875.js": "0dbf1b9ab847ae1b97231db817f2dd0c703189fa",
+    "/manifest.webmanifest": "b75bb8ad6274c1072500a57c0450f22b565bb8e1",
+    "/polyfills-es2015.f332a089ad1600448873.js": "72ad4ccc0a3916ae4598199447cdeadd6d380570",
+    "/polyfills-es5.177e85a9724683782539.js": "f32c7aaca8b60df7a9dfa6cb8f2b7751b5d0832c",
+    "/runtime-es2015.0dae8cbc97194c7caed4.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
+    "/runtime-es5.0dae8cbc97194c7caed4.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
+    "/styles.e9d99eac017778141ecb.css": "b459f273cbdc7f0f88e6d0e29212eca916063bff"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ]
+}
